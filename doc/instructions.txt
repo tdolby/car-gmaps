@@ -1,0 +1,23 @@
+
+rfcomm connect rfcomm0  00:15:4B:12:38:1C 1
+
+gpsd -b -N -n -D 100 /dev/rfcomm0
+
+ 00:15:4B:12:38:1C       BT-541
+
+Swaythling:
+
+ center: {lat: 50.939390, lng: -1.38416}
+
+Chilworth exit:
+  50.956679, -1.380892
+
+Otterbourne Zone:
+
+ 51.008452, -1.343020
+ 50.995122, -1.358618
+
+Fake GPS start:
+# Start north of Otterbourne
+self.latitude  = 51.044409
+self.longitude = -1.347936

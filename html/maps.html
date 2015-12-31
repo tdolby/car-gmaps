@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Car Display</title>
+    <style>
+      html, body {
+        background-color: black;
+        backgroundColor: "#000000";
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map-canvas {
+        background-color: black;
+        backgroundColor: "#000000";
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <script>
+var globalMap;
+function redrawMap()
+{
+  // globalMap.setCenter({lat: 51.7, lng: -1.33});
+
+  var image = 'yellow.png';
+
+  var marker = new google.maps.Marker({
+    position:  {lat: 50.99, lng: -1.34104310},
+    map: globalMap,
+    icon: image
+  });
+
+}
+var globalTrafficLayerOne;
+
+function reloadTiles() {
+    //var tiles = $("#map-canvas").find("img");
+    var mapElem = document.getElementById('map-canvas');
+    var tiles = mapElem.getElementsByTagName('img');
+    for (var i = 0; i < tiles.length; i++) {
+        //var src = $(tiles[i]).attr("src");
+        var src = tiles[i].getAttribute("src");
+        if (/googleapis.com\/vt\?pb=/.test(src)) {              
+            var new_src = src.split("&ts")[0] + '&ts=' + (new Date()).getTime();
+            //$(tiles[i]).attr("src", new_src);
+            tiles[i].setAttribute("src", new_src);
+        }               
+    }
+}   
+function refreshTraffic()
+{
+   globalTrafficLayerOne.setMap(null);
+   globalTrafficLayerOne = null;
+   setTimeout(reenableTraffic, 1000);
+}
+
+function reenableTraffic()
+{
+  var trafficLayer = new google.maps.TrafficLayer();
+  trafficLayer.setMap(globalMap);
+  globalTrafficLayerOne = trafficLayer;
+}
+
+
+function repositionMap(newLat, newLong, newScale)
+{
+  globalMap.setCenter({lat: newLat, lng: newLong});
+  globalMap.setZoom(newScale);
+}
+
+function updateLocation()
+{
+  //alert("Hello!");
+
+  var xhr = typeof XMLHttpRequest != 'undefined'
+			? new XMLHttpRequest()
+			: new ActiveXObject('Microsoft.XMLHTTP');
+  xhr.open('GET', 'http://localhost:13010/car/display/location' , true);
+  xhr.onreadystatechange = function() {
+    var status;
+    var data;
+    if (xhr.readyState == 4) { // `DONE`
+      status = xhr.status;
+      if (status == 200) 
+      {
+	//alert("received response: "+xhr.response);
+	var jsonResp = JSON.parse(xhr.response);
+        repositionMap(jsonResp.location.lat, jsonResp.location.lon, jsonResp.scale);
+      }
+      else
+      {
+        //alert("Error getting GPS data "+status);
+      }
+    }
+  };
+  xhr.send();
+
+  //window.location.reload(true);
+}
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map-canvas'), {
+    zoom: 13,
+    mapTypeId: google.maps.MapTypeId.HYBRID,
+    center: {lat: 50.939390, lng: -1.38416}
+  });
+
+  var trafficLayer = new google.maps.TrafficLayer();
+globalMap = map;
+
+  trafficLayer.setMap(globalMap);
+
+globalTrafficLayerOne = trafficLayer;
+
+//setTimeout(reloadPage, 5000);
+//setInterval(reloadTiles, 5000);
+setInterval(updateLocation, 5000);
+//setInterval(reloadPage, 5000);
+}
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap&signed_in=true" async defer>
+    </script>
+  </body>
+</html>

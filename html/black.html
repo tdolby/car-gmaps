@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<TITLE>Black load page</TITLE>
+    <style>
+      html, body {
+        background-color: black;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+<SCRIPT LANGUAGE="JavaScript">
+function redirectToMaps()
+{
+  setTimeout("timeoutFunction()",1000);
+}
+function timeoutFunction()
+{
+  window.location.href = "maps.html"; 
+}
+</SCRIPT>
+
+</HEAD>
+
+<BODY onLoad="redirectToMaps()">
+
+
+</BODY>
+</HTML>
