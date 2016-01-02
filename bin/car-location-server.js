@@ -8,11 +8,13 @@
 //   
 //
 var Zone = require('../lib/js/location-server/Zone.js');
+var ZoneManager = require('../lib/js/location-server/ZoneManager.js');
 var GPSFix = require('../lib/js/location-server/GPSFix.js');
 var ScreenInformation = require('../lib/js/location-server/ScreenInformation.js');
 
-var screenInformation = new ScreenInformation(new GPSFix(), 13);
 var onlyZone = new Zone();
+var zoneManager = new ZoneManager('../conf/zones.yml');
+var screenInformation = new ScreenInformation(new GPSFix(), 13, zoneManager);
 var previousFix = new GPSFix();
 var currentFix = new GPSFix();
 var scaleHack = 1;

@@ -1,0 +1,10 @@
+#xterm -bg black -fg white &
+/home/pi/car-gmaps/bin/gps-api-server.py &
+xset s off
+xset -dpms
+xset s noblank
+matchbox-window-manager &
+sleep 2
+unclutter &
+midori -e Fullscreen --app=/home/pi/car-gmaps/html/maps.html
+

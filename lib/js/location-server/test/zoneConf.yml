@@ -1,0 +1,14 @@
+
+zones:
+
+  GulfOfGuinea: !!map
+    top:      0.1
+    bottom:  -0.1
+    left:    -0.1
+    right:    0.1
+    topTriggerCallback: !!js/function >
+         function topTriggerCallback(screenInformation, gpsFix, zoneManager) {
+            console.log("Entered zone");
+            throw new Error('expected exception');
+         }
+    description: Test zone
