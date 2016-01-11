@@ -1,0 +1,25 @@
+
+zones:
+
+  dummyZone: !!map
+    top:      1.0
+    bottom:  -1.0
+    left:    -1.0
+    right:    1.0
+    topTriggerCallback: !!js/function >
+         function topTriggerCallback(screenInformation, gpsFix, zoneManager) {
+            screenInformation.setInfo(new gpsFix(100, 100, 0), 14);
+         }
+    description: Test zone
+
+
+  secondZone: !!map
+    top:      51.58
+    bottom:   51.38
+    left:    -0.1
+    right:    0.1
+    topTriggerCallback: !!js/function >
+         function topTriggerCallback(screenInformation, gpsFix, zoneManager) {
+            screenInformation.setInfo(new gpsFix(1, 2, 0), 14);
+         }
+    description: Test zone for making sure two zones work

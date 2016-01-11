@@ -8,7 +8,41 @@ zones:
     right:    0.1
     topTriggerCallback: !!js/function >
          function topTriggerCallback(screenInformation, gpsFix, zoneManager) {
-            console.log("Entered zone");
             throw new Error('expected exception');
          }
     description: Test zone
+
+
+  Greenwich: !!map
+    top:      51.58
+    bottom:   51.38
+    left:    -0.1
+    right:    0.1
+    topTriggerCallback: !!js/function >
+         function topTriggerCallback(screenInformation, gpsFix, zoneManager) {
+            var gogZone = zoneManager.getZoneByName('GulfOfGuinea');
+            if ( gogZone === undefined )
+            {
+              throw new Error('no zone info at all for GulfOfGuinea');
+            }
+            var timeInGog = gogZone.lastTimeInZone();
+            if ( ( timeInGog === undefined ) ||
+               ( timeInGog == 0 ) )
+            {
+              throw new Error('no lastTimeInZone for GulfOfGuinea');
+            }
+            var currentDate = new Date();
+            var lastDate = new Date(timeInGog * 1000);
+            if ( ( lastDate.getHours() > 8 ) &&
+                 ( lastDate.getHours() < 11 ) &&
+                 ( lastDate.getDate() == currentDate.getDate() ) && 
+                 ( lastDate.getMonth() == currentDate.getMonth() ) )
+            {
+               //console.log("lastDate "+lastDate+" is this morning");
+            }
+            else
+            {
+               throw new Error('no lastTimeInZone for GulfOfGuinea');
+            }
+         }
+    description: Test zone for checking last entered time

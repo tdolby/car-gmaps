@@ -80,7 +80,7 @@ function updateLocation()
   var xhr = typeof XMLHttpRequest != 'undefined'
 			? new XMLHttpRequest()
 			: new ActiveXObject('Microsoft.XMLHTTP');
-  xhr.open('GET', 'http://localhost:13010/car/display/location' , true);
+  xhr.open('GET', 'http://192.168.1.70:13010/car/display/location' , true);
   xhr.onreadystatechange = function() {
     var status;
     var data;

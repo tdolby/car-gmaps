@@ -12,8 +12,7 @@ var ZoneManager = require('../lib/js/location-server/ZoneManager.js');
 var GPSFix = require('../lib/js/location-server/GPSFix.js');
 var ScreenInformation = require('../lib/js/location-server/ScreenInformation.js');
 
-var onlyZone = new Zone();
-var zoneManager = new ZoneManager('../conf/zones.yml');
+var zoneManager = new ZoneManager('../../zoneConf.yml');
 var screenInformation = new ScreenInformation(new GPSFix(), 13, zoneManager);
 var previousFix = new GPSFix();
 var currentFix = new GPSFix();
@@ -42,7 +41,8 @@ app.post('/car/display/location', function (req, res)
     previousFix = currentFix;
     currentFix  = fixReceived;
 
-    screenInformation.updateFromData(onlyZone, currentFix, previousFix);
+    screenInformation.updateFromData(currentFix, previousFix);
+
     
     res.send(screenInformation.toJSON());
 });
